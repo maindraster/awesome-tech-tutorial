@@ -17,9 +17,6 @@ importers:
       astro:
         specifier: ^5.6.1
         version: 5.15.4(@types/node@24.10.0)(@vercel/functions@2.2.13)(jiti@1.21.7)(rollup@4.53.2)(typescript@5.9.3)(yaml@2.8.1)
-      astro-live-code:
-        specifier: ^0.0.6
-        version: 0.0.6
       sharp:
         specifier: ^0.34.2
         version: 0.34.5
@@ -1069,9 +1066,6 @@ packages:
     resolution: {integrity: sha512-Z0QW5IQjosuKQDEGYYkvUX6EhEtrmE4/oViqWz23QveV8U7AuyFsTdg00WRNPevWZl/5a4lLUeDpv4bCRynRRg==}
     peerDependencies:
       astro: ^4.12.0 || ^5.0.0
-
-  astro-live-code@0.0.6:
-    resolution: {integrity: sha512-s8rnHk7ADXBKikCJuHmSclRs5EcYoMUofHo8vcbPRieEFD/26JQReVIARBh+IBppwrrhc1gv2tP5ly3x7LQ5sQ==}
 
   astro-remote@0.3.4:
     resolution: {integrity: sha512-jL5skNQLA0YBc1R3bVGXyHew3FqGqsT7AgLzWAVeTLzFkwVMUYvs4/lKJSmS7ygcF1GnHnoKG6++8GL9VtWwGQ==}
@@ -4064,12 +4058,6 @@ snapshots:
       astro: 5.15.4(@types/node@24.10.0)(@vercel/functions@2.2.13)(jiti@1.21.7)(rollup@4.53.2)(typescript@5.9.3)(yaml@2.8.1)
       pathe: 1.1.2
       recast: 0.23.11
-
-  astro-live-code@0.0.6:
-    dependencies:
-      estree-util-visit: 2.0.0
-      magic-string: 0.30.21
-      unist-util-visit-parents: 6.0.2
 
   astro-remote@0.3.4:
     dependencies:

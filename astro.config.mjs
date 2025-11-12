@@ -9,7 +9,6 @@ import vercel from '@astrojs/vercel';
 import starlightThemeNova from 'starlight-theme-nova'
 import starlightSidebarTopics from 'starlight-sidebar-topics'
 import starlightPageActions from 'starlight-page-actions'
-import liveCode from 'astro-live-code'
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,6 +24,7 @@ export default defineConfig({
       starlightSidebarTopics([
             {
               label: '初出茅庐',
+              id: 'zero',
               link: '/s1/zero2hero',
               icon: 'open-book',
               items: [
@@ -47,8 +47,11 @@ export default defineConfig({
                   },
                   {label: '嵌入式开发篇',
                     collapsed: true,
-                    items: [{
-                      label: 'ESP32篇',
+                    items: [
+                    {label: '嵌入式开发概述',
+                      link: '/s1/embed/index_emb'
+                    },
+                    {label: 'ESP32篇',
                       collapsed: true,
                       autogenerate: {directory: '/s1/embed/esp'}
                     }]
@@ -72,7 +75,7 @@ export default defineConfig({
             {
               label: '机工精巧',
               link: '/s2/zero2hero',
-              icon: 'reddit',
+              icon: 'open-book',
               items: [
                 {label: '写在前面',
                   link: '/s2/zero2hero'
@@ -85,7 +88,13 @@ export default defineConfig({
                 }
               ]
             },
-          ]),
+          ],
+          {
+            topics: {
+              // Associate custom pages with the "Guides" topic.
+              zero: ['/s1/project/cpuzz', '/s1/project/ysyx/*','/s1/project/11b','/s1/ai/**/*','/s1/electronics/**/*'],
+            },
+          }),
       starlightGiscus({
         repo: 'maindraster/docgiscus',
         repoId: 'R_kgDON-oOVQ',
