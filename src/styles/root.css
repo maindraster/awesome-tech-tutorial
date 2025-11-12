@@ -1,0 +1,100 @@
+/* 自定义暗色主题的 accent 颜色 */
+:root {
+  --sl-font: 'SarasaFixedSC';
+  --sl-color-gray-6: #f0f0f0;
+  --sl-color-gray-5: #e9e9e9;
+  --accent: #facc15;
+}
+:root[data-theme='dark'] {
+  /* 主要的 accent 颜色 - 使用更柔和的蓝色 */
+  --sl-color-accent-high: rgb(255 230 128 / 90%);
+  --sl-color-bg: #121212;
+  --sl-color-bg-sidebar: #191919;
+  --sl-color-gray-6: #232323;
+  --sl-color-gray-5: #303030;
+  --sl-color-text-accent: var(--sl-color-accent-high);
+}
+
+.container-b {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-around;
+  padding: 5px;
+  margin:0;
+  padding: 0;
+  max-width: 1200px; /* Adjust the max-width as needed */
+}
+
+.row-b {
+  display: flex;
+  width: 100%;
+  margin:2px;
+}
+
+.button-cell {
+  width: calc(50% - 4px); /* Subtract the gap width */
+  height: 45px; /* Uniform height */
+  margin: 4px; 
+  box-sizing: border-box; /* Include padding and border in width and height */
+}
+
+.button {
+  height: 100%; /* Fill the container */
+  background-color: #fff7e6; /* Set the default background color */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the text horizontally */
+  text-decoration: none; /* Remove underline from links */
+  transition: background-color 0.3s; /* Add transition for background color */
+  border-radius: 5px;
+  font-size: small;
+  color: #b88400;
+}
+
+.button:hover {
+  background-color: var(--accent); /* Set the hover background color */
+}
+
+.button-cell a {
+  display: flex;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-decoration: inherit;
+}
+
+.aspect-ratio {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 50%;
+}
+
+.aspect-ratio iframe {
+position: absolute;
+width: 100%;
+height: 100%;
+left: 0;
+top: 0;
+}
+
+.container-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px; 
+}
+
+.item-icon {
+  padding: 20px;
+}
+
+.container-pdf{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px; 
+}

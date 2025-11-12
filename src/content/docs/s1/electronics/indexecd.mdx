@@ -1,0 +1,84 @@
+---
+title: 电子电路设计篇
+description: 电子电路设计部分自学前言导读。
+---
+
+import { ShowcaseText } from 'starlight-showcases'
+
+:::note[本篇内容]
+为了尽可能避免本篇与嵌入式篇内容重叠，本篇主要强调：
+1. 理论层：**电路基础、模电、数电等**；
+2. 应用层：从**模电、数电电路设计**到嵌入式芯片**外围电路设计**；
+:::
+
+:::tip[万能工科生基础相关视频]
+[原理图、PCB绘制通识](./../train/w5_schepcb)
+:::
+
+## 电子电路基础知识
+
+查阅了大量学习路径，电子电路设计无疑都需要先从基础开始，也就是三大核心课程**电路基础**、**数字电路**、**模拟电路**（如果你有玩过红石电路，我相信你已经有很好的基础了）。借鉴[油管学习路线](https://www.youtube.com/watch?v=Bgrubw6B_us)。
+
+### 入门学习
+
+<details>
+<summary>《电子学》部分笔记</summary>
+《电子学》为 **《The Art of Electronics》**(authors: Paul Horowitz / Winfield Hill)第二版的中文译作。
+1. [第一章](./taofe/chap1/)
+2. [第二章（缺）](./taofe/chap2/)
+</details>
+
+### 电路模型
+
+<details>
+<summary>《电子学》接触过的电路</summary>
+同一条采用相同的电路，但作用、使用条件可能不同。
+
+1. [延时电路](./taofe/chap1/#142-rc电路随时间变化的v与i)
+2. [微分器](./taofe/chap1/#143-微分器) / [高通滤波器、电源耦合输入](./taofe/chap1/#162-rc滤波器)
+3. [积分器、斜坡发生器](./taofe/chap1/#144-积分器) / [低通滤波器](./taofe/chap1/#162-rc滤波器)
+4. [谐振电路、带通滤波器](./taofe/chap1/#165-谐振电路与有源滤波器)
+5. [电源整流器](./taofe/chap1/#174-电源的整流器结构)
+6. [倍压器](./taofe/chap1/#174-电源的整流器结构)
+7. [钳位器](./taofe/chap1/#176-二极管的电路应用)
+8. [对数转换器](./taofe/chap1/#176-二极管的电路应用)
+9. [保护电路](./taofe/chap1/#177-感性负载与二极管保护)
+10. [三极管开关](./taofe/chap2/#221-三极管开关)
+11. 射极跟随器[基础](./taofe/chap2/#222-射极跟随器)[设计](./taofe/chap2/#224-射极跟随器偏置)
+12. 射极跟随器作为[稳压器](./taofe/chap2/#223-射极跟随器作为稳压器)
+13. 
+
+</details>
+
+## PCB 绘制
+
+1. [PCB 布线](../pcb/1)
+
+## FPGA
+
+<ShowcaseText
+  entries={[
+    {
+      href: '../fpga/1',
+      title: 'FPGA 介绍',
+      description: 'FPGA 介绍',
+    },
+    {
+      href: '../fpga/2',
+      title: 'VHDL 介绍',
+      description: 'VHDL 介绍',
+    },
+  ]}
+/>
+
+## 单板机使用
+
+<ShowcaseText
+  entries={[
+    {
+      href: './dbj/ras',
+      title: '树莓派 5 使用',
+      description: '系统安装等',
+    },
+  ]}
+/>

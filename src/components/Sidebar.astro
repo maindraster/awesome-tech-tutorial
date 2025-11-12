@@ -1,0 +1,172 @@
+---
+import Search from 'virtual:starlight/components/Search';
+import SiteTitle from 'virtual:starlight/components/SiteTitle';
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import TopicsDropdown from './TopicsDropdown.astro';
+import SidebarSublist from './SidebarSublist.astro';
+import config from 'virtual:starlight/user-config';
+
+const { sidebar } = Astro.locals.starlightRoute;
+
+const shouldRenderSearch =
+  config.pagefind ||
+  config.components.Search !== '@astrojs/starlight/components/Search.astro';
+---
+
+<div class="sidebar-container">
+  <div class="sidebar-top-fixed">
+    <div class="title-wrapper">
+      ∀∅ 万工笔记
+      <!--  <SiteTitle /> -->
+    </div>
+    {shouldRenderSearch && <Search />}
+    <div class="topics-wrapper">
+      <TopicsDropdown />
+    </div>
+  </div>
+  <div class="sidebar-scroll-area">
+    <div class="sidebar-section sidebar-main">
+      <div class="container-sidebar">
+        <SidebarSublist sublist={sidebar} />
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-footer-floating">
+    <MobileMenuFooter />
+  </div>
+</div>
+
+<style>
+  /* ===============================
+   整体布局
+  =============================== */
+  .sidebar-container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--sl-color-bg-sidebar, var(--sl-color-bg));
+    overflow: hidden; /* 保证内部滚动区域不外溢 */
+    overscroll-behavior: contain;
+  }
+
+  /* ===============================
+   顶部固定区（标题 + 搜索 + TopicsDropdown）
+  =============================== */
+  .sidebar-top-fixed {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    background: var(--sl-color-bg-sidebar, var(--sl-color-bg));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 0.5rem 1rem 1rem; /* 减小顶部内边距从 1rem 到 0.5rem */
+  }
+
+  /* 顶部模糊渐变效果 */
+  .sidebar-top-fixed::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(
+      to top,
+      transparent,
+      var(--sl-color-bg-sidebar, var(--sl-color-bg))
+    );
+    pointer-events: none;
+  }
+
+  .title-wrapper {
+    margin-bottom: 0.75rem;
+  }
+
+  /* 调整 Search 和 TopicsDropdown 之间的间距 */
+  .sidebar-top-fixed > :global(.pagefind-ui) {
+    margin-bottom: 1.25rem; /* 从默认的 1rem 增加到 1.25rem */
+  }
+
+  .topics-wrapper {
+    margin-top: 0.75rem;
+  }
+
+  /* ===============================
+   中间滚动区域（仅 sidebar 部分）
+  =============================== */
+  .sidebar-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: -1.25rem;
+    padding: 1rem;
+    padding-bottom: 0rem;
+    box-sizing: border-box;
+    overscroll-behavior: contain;
+    /* 隐藏滚动条 */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  
+  .sidebar-scroll-area::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Sidebar 内容容器 */
+  .container-sidebar {
+    gap: 1.5rem;
+    flex-direction: column;
+    display: flex;
+  }
+
+  /* ===============================
+   底部固定 Footer
+  =============================== */
+  .mobile-footer-floating {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 30;
+    height: 3rem;
+    background: var(--sl-color-bg-sidebar, var(--sl-color-bg));
+    border-top: 1px solid var(--sl-color-hairline-shade);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* ===============================
+   移动端优化
+  =============================== */
+  @media (max-width: 49.99rem) {
+    .sidebar-scroll-area {
+      padding-bottom: 6rem;
+    }
+
+    .sidebar-top-fixed {
+      background: var(--sl-color-black);
+      padding: 0.25rem 1rem 1rem; /* 移动端进一步减小顶部内边距 */
+    }
+
+    .sidebar-top-fixed::after {
+      background: linear-gradient(to top, transparent, var(--sl-color-black));
+    }
+
+    .mobile-footer-floating {
+      background: var(--sl-color-black);
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  /* ===============================
+   响应式调整（与原 sidebar 样式保持一致）
+  =============================== */
+  @media (min-width: 1024px) {
+    .sidebar-scroll-area {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+  }
+</style>

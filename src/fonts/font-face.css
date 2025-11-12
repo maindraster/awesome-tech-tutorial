@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'SarasaFixedSC';
+  src: url('./SarasaFixedSC-Light.ttf') format('ttf');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SarasaFixedSC';
+  src: url('./SarasaFixedSC-Regular.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SarasaFixedSC';
+  src: url('./SarasaFixedSC-SemiBold.ttf') format('ttf');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SarasaFixedSC';
+  src: url('./SarasaFixedSC-Bold.ttf') format('ttf');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

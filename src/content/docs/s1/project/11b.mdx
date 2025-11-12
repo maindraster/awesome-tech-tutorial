@@ -1,0 +1,100 @@
+---
+title: 布尔算数和ALU
+description: 自己构建一台计算机。
+lastUpdated: 2024-10-20
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+## 布尔逻辑(Boolean Logic)
+
+### 布尔运算(Boolean Operation)
+
+**And（与门）**：两输入一输出，输入均为1时输出为1，否则输出为0。
+
+**Or（或门）**：两输入一输出，输入任意为1时输出为1，否则输出为0。
+
+**Not（非门）**：单输入一输出，输入为1时输出为0，输入为0时输出为1。
+
+:::tip[题目1]
+1 AND (0 OR (NOT (1))) = ？
+<details>
+<summary>答案</summary>
+```
+0
+```
+</details>
+:::
+
+### 布尔函数(Boolean function)
+
+**两种表达方式**：
+
+1. 公式：f(x,y,z)=(x AND y) OR (NOT(x) AND z)
+
+2. 真值表(Truth table) ：
+
+    | x | y | z | f(x,y,z) |
+    | - | - | - | - |
+    | 0 | 0 | 0 | 0 |
+    | 0 | 0 | 1 | 1 |
+    | 0 | 1 | 0 | 0 |
+    | 0 | 1 | 1 | 1 |
+    | 1 | 0 | 0 | 0 |
+    | 1 | 0 | 1 | 0 |
+    | 1 | 1 | 0 | 1 |
+    | 1 | 1 | 1 | 1 |
+
+**特性**：
+1. 结合律：A AND (B AND C) = (A AND B) AND C
+2. 分配律：A AND (B OR C) = (A AND B) OR (A AND C)
+3. 交换律：A AND B = B AND A
+4. 德摩根律：NOT(A AND B) = NOT A OR NOT B；NOT(A OR B) = NOT A AND NOT B
+
+:::tip[题目2]
+
+化简 NOT(NOT(x) AND NOT(x OR y))
+
+<details>
+<summary>答案</summary>
+```
+= NOT(NOT(x) AND NOT(x) AND NOT(y)) = NOT(NOT(x) AND NOT(y))
+= NOT(NOT(x)) OR NOT(NOT(y)) = x OR y
+```
+</details>
+:::
+
+## 布尔函数综合(Boolean Function Synthesis)
+
+我们设计电路一定从功能开始，那么最直观的就是真值表。但真值表不包含运算逻辑，因此要从真值表推导出表达式。方法如下：
+
+- 找出所有输出为 1 的，列出仅满足该输入条件时才输出为 1 的表达式
+- 将这些表达式 OR 起来，得到整个电路的表达式
+
+![s480](../../../../assets/images/n2t_11.png)
+
+注意：至今也没有一个方法能够找到等效最短的逻辑表达式。
+
+**定理1：任何布尔函数都能用包含 AND OR NOT 运算的表达式表示。**
+
+**定理2：任何布尔函数都能用包含 AND 和 NOT 运算的表达式表示。**（OR 可以用 De Morgan 律式转换为 AND 和 NOT）
+
+NAND 运算：x NAND y = NOT(x AND y)
+
+**定理3：任何布尔函数都能用仅包含 NAND 运算的表达式表示。**(NOT(x)=x NAND x)
+
+## 逻辑门(Logic Gates)
+
+逻辑门就是布尔逻辑的物理实现。
+
+> 至于它们如何被造出来属于电气工程的内容，God bless them，我们学计算机的不考虑这些。
+
+芯片接口(chip interface)：用户关系芯片的功能是什么（输入和输出的关系）
+
+芯片实现(chip implementation)：工程师需要关心芯片内部的实现
+
+## 硬件描述语言(Hardware Description Language)
+
+硬件描述语言(HDL)是一种用来描述硬件的语言，它可以用来描述电路、逻辑门、时序逻辑、存储器、接口等。
+
+<LinkCard title="返回" description="什么是CPU" href="./1-1" />

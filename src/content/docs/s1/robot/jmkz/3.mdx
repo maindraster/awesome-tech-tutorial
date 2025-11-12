@@ -1,0 +1,64 @@
+---
+title: 速度与静力
+lastUpdated: 2025-03-21
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+:::tip[提示]
+从本篇目开始将主要采用《机器人学导论》（John J.Crag）的内容，而非《机器人建模与控制》（吴俊）。
+:::
+
+## 时变位置和姿态的符号表示
+
+### 速度矢量的导数
+
+$
+{}^BV_Q = \frac{d}{dt}{}^BQ = \lim_{\Delta t \to 0} \frac{{}^BQ(t+\Delta t) - {}^BQ(t)}{\Delta t}
+$
+
+Q是一个点，\{B\}是坐标系。
+
+${}^A({}^BV_Q) = \frac{{}^Ad}{dt}{}^BQ$
+
+括号里面的表示进行求导运算的坐标系，括号外面的是速度矢量的坐标系。如果内外相同，不需要给出外层。
+
+${}^A({}^BV_Q) = ^A_BR{}^BV_Q$
+
+针对常见世界坐标系，我们有简写：
+
+$v_C = {}^UV_{CORG}$
+
+### 角速度矢量
+
+我们使用 <sup>A</sup>Ω<sub>B</sub> 描述\{B\}相对于\{A\}的旋转，它的方向就是\{B\}相对于\{A\}的旋转轴，其大小表示旋转速率。<sup>C</sup>(<sup>A</sup>Ω<sub>B</sub>)就是坐标系\{B\}相对于\{A\}的角速度在坐标系\{C\}下的表示。
+
+
+针对常见世界坐标系，我们有简写：
+
+$\omega_C = {}^U\Omega_{CORG}$
+
+## 刚体的线速度和角速度
+
+### 线速度
+
+坐标系\{B\}和坐标系\{A\}的姿态保持不变，那么有：
+
+${}^AV_Q = {}^AV_{BORG} + {}^A_BR^B V_Q$
+
+### 角速度
+
+<Steps>
+1. {}^AV_Q = {}^A\Omega_B \times {}^AQ
+2. 一般矢量Q相对坐标系\{B\}变化的，因此要加上此分量，得到
+{}^AV_Q = {}^A({}^BV_Q) + {}^A\Omega_B \times {}^AQ
+3. {}^AV_Q = {}^A_BR^BV_Q + {}^A\Omega_B \times {}^A_BR^BQ
+</Steps>
+
+### 联立线速度和角速度
+
+${}^AV_Q = {}^AV_{BORG} + {}^A_BR^BV_Q + {}^A\Omega_B \times {}^A_BR^BQ$
+
+## 对角速度的进一步研究
+
+

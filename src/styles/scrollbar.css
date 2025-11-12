@@ -1,0 +1,15 @@
+/* 隐藏侧边栏滚动条 */
+.sidebar-content,
+.sidebar-pane {
+  /* Firefox */
+  scrollbar-width: none;
+  
+  /* IE 10+ */
+  -ms-overflow-style: none;
+}
+
+/* Chrome, Safari, Edge */
+.sidebar-content::-webkit-scrollbar,
+.sidebar-pane::-webkit-scrollbar {
+  display: none;
+}

@@ -1,26 +1,149 @@
-// @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig,passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import starlightImageZoom from 'starlight-image-zoom';
+import remarkMath from "remark-math";
+import rehypeMathjax from 'rehype-mathjax';
+import starlightGiscus from 'starlight-giscus'
+import tailwind from "@astrojs/tailwind";
+import vercel from '@astrojs/vercel';
+import starlightThemeNova from 'starlight-theme-nova'
+import starlightSidebarTopics from 'starlight-sidebar-topics'
+import starlightPageActions from 'starlight-page-actions'
+import liveCode from 'astro-live-code'
 
 // https://astro.build/config
 export default defineConfig({
-	integrations: [
-		starlight({
-			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
-			sidebar: [
-				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
-				},
-				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
-				},
-			],
-		}),
-	],
+  site: 'https://www.indratang.top',
+
+  image: {
+    service: passthroughImageService()
+  },
+
+  integrations: [
+    starlight({
+    plugins: [
+      starlightSidebarTopics([
+            {
+              label: '初出茅庐',
+              link: '/s1/zero2hero',
+              icon: 'open-book',
+              items: [
+                {label: '写在前面',
+                  link: '/s1/zero2hero'
+                },
+                {label: '万工教程',
+                  items: [
+                    { label: '概览', link: '/s1/frin'},
+                    { label: '基础教程', autogenerate: {directory: '/s1/train'}}, 
+                    { label: '理论科普', collapsed: true, autogenerate: {directory: '/s1/trainll'}},
+                    { label: '初级教程', collapsed: true, autogenerate: {directory: '/s1/traincj'}},
+                  ],
+                },
+                {label: '篇章学习',
+                  collapsed: true,
+                  items: [
+                  {label: '电子电路设计篇',
+                    link: '/s1/electronics/indexecd'
+                  },
+                  {label: '嵌入式开发篇',
+                    collapsed: true,
+                    items: [{
+                      label: 'ESP32篇',
+                      collapsed: true,
+                      autogenerate: {directory: '/s1/embed/esp'}
+                    }]
+                  },
+                  {label: '机器人篇',
+                    collapsed: true,
+                    items: [{
+                      label: '建模与控制',
+                      autogenerate: {directory: '/s1/robot/jmkz'}
+                    }]
+                  },
+                  {label: '人工智能篇',
+                    link: '/s1/ai/indexai'
+                  },
+                  {label: '项目实战篇',
+                    link: '/s1/project/indexpro'
+                  },],
+                }
+              ],
+            },
+            {
+              label: '机工精巧',
+              link: '/s2/zero2hero',
+              icon: 'reddit',
+              items: [
+                {label: '写在前面',
+                  link: '/s2/zero2hero'
+                },
+                { label: '理论学习',
+                  autogenerate: {directory: '/s2/rl'}
+                },
+                { label: '实操',
+                  autogenerate: {directory: '/s2/sim'}
+                }
+              ]
+            },
+          ]),
+      starlightGiscus({
+        repo: 'maindraster/docgiscus',
+        repoId: 'R_kgDON-oOVQ',
+        category:'Q&A',
+        categoryId:'DIC_kwDON-oOVc4CnRog',
+        theme:'catppuccin_latte',
+        lazy: true
+    }),
+    starlightImageZoom(),
+    starlightPageActions(),
+    // starlightUtils({
+    //   navLinks: {
+    //   leading: { useSidebarLabelled:  "leading"  } ,
+    // }})
+    starlightThemeNova({
+    }), 
+    ],
+    title: ' 万工笔记',
+    tableOfContents: { minHeadingLevel: 2,
+       maxHeadingLevel: 4
+       },
+    locales: {
+      root: {
+        label: '简体中文',
+        lang: 'zh-CN'
+      }
+    },
+    customCss: [
+      './src/styles/root.css', 
+      './src/styles/iconfont.css', 
+      './src/styles/picsize.css',
+      './src/styles/scrollbar.css',
+      './src/styles/sidebar.css',
+      './src/styles/droptopic.css',
+      './src/fonts/font-face.css',
+    ],
+    components: {
+        //PageSidebar: './src/components/PageSidebar.astro',
+        PageFrame: './src/components/PageFrame.astro',
+        Sidebar: './src/components/Sidebar.astro',
+        // Search: './src/components/Search.astro',
+      },
+    social: [
+      { label: 'GitHub', icon: 'github', href: 'https://github.com/maindraster/maindraster.github.io' },
+      { label: 'BiliBili', icon: 'youtube', href: 'https://space.bilibili.com/3546706348084176' },
+      // 其他社交链接...
+    ],
+  }),
+  ],
+
+  markdown: {
+    // 应用于 .md 和 .mdx 文件
+    smartypants: false,
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [ rehypeMathjax],
+    remarkRehype: { footnoteLabel: '参考', footnoteBackLabel: '返回正文' },
+  },
+  output: 'server',
+  adapter: vercel()
 });
+
