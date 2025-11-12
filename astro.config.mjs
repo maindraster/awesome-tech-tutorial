@@ -135,7 +135,9 @@ export default defineConfig({
     ],
   }),
   ],
-
+  redirects: {
+    '/': '/s1/zero2hero'
+  },
   markdown: {
     // 应用于 .md 和 .mdx 文件
     smartypants: false,
