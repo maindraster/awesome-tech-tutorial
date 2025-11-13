@@ -1,6 +1,9 @@
 ---
-title: W5 原理图、PCB绘制通识
+title: 原理图、PCB绘制通识
+description: AD和立创EDA软件使用简介和学习方法
 lastUpdated: 2024-10-07
+sidebar:
+    order: 6
 ---
 
 <center class="aspect-ratio" >

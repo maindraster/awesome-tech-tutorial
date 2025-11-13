@@ -1,6 +1,9 @@
 ---
-title: W8 SolidWorks建模与3D打印
+title: SolidWorks建模与3D打印
+description: 快速学习SolidWorks建模软件以及3D打印基本操作
 lastUpdated: 2024-10-28
+sidebar:
+    order: 9
 ---
 
 ## SolidWorks

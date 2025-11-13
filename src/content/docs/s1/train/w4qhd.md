@@ -1,6 +1,9 @@
 ---
-title: W4 前后端速成
+title: 前后端速成
+description: 前后端的快速介绍，快速上手AI编程
 lastUpdated: 2024-09-30
+sidebar:
+    order: 5
 ---
 
 <center class="aspect-ratio">

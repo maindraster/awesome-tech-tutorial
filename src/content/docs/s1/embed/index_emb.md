@@ -1,6 +1,6 @@
 ---
 title: 嵌入式开发篇
-description: 电子电路设计部分自学前言导读。
+description: 电子电路设计部分自学前言导读
 ---
 
 :::note[本篇内容]

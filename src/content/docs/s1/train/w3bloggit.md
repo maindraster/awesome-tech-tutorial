@@ -1,6 +1,9 @@
 ---
-title: W3 搭建博客与Git操作
+title: 搭建博客与Git操作
+description: 学会使用Git、Github，以Astro模板为例搭建自己的博客网站
 lastUpdated: 2024-09-23
+sidebar:
+    order: 4
 ---
 
 <center class="aspect-ratio" >

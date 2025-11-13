@@ -1,6 +1,9 @@
 ---
-title: W7 MATLAB+Simulink基础
+title: MATLAB+Simulink基础
+description: MATLAB、Simulink和Simscape的基本使用入门
 lastUpdated: 2024-10-21
+sidebar:
+    order: 8
 ---
 
 ## MATLAB 安装与学习

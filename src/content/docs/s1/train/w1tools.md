@@ -1,7 +1,9 @@
 ---
-title: W1 实用工具
-description: 实用软件、插件等。
+title: 实用工具
+description: 实用软件、插件等
 lastUpdated: 2024-09-11
+sidebar:
+    order: 2
 ---
 
 <center class="aspect-ratio" >

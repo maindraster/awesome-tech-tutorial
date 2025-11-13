@@ -2,13 +2,15 @@ import { defineConfig,passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom';
 import remarkMath from "remark-math";
-import rehypeMathjax from 'rehype-mathjax';
+import rehypeMathjax from 'rehype-mathjax'
+import rehypeKatex from 'rehype-katex'
 import starlightGiscus from 'starlight-giscus'
 import tailwind from "@astrojs/tailwind";
 import vercel from '@astrojs/vercel';
 import starlightThemeNova from 'starlight-theme-nova'
 import starlightSidebarTopics from 'starlight-sidebar-topics'
-import starlightPageActions from 'starlight-page-actions'
+//import starlightPageActions from 'starlight-page-actions'
+import starlightPageActions from './src/integrations/starlight-page-actions';
 
 // https://astro.build/config
 export default defineConfig({
@@ -81,7 +83,7 @@ export default defineConfig({
                   link: '/s2/zero2hero'
                 },
                 { label: '理论学习',
-                  autogenerate: {directory: '/s2/rl'}
+                  autogenerate: {directory: '/s2/ll'}
                 },
                 { label: '实操',
                   autogenerate: {directory: '/s2/sim'}
@@ -130,9 +132,10 @@ export default defineConfig({
       './src/styles/sidebar.css',
       './src/styles/droptopic.css',
       './src/fonts/font-face.css',
+      './src/styles/katex.css',
     ],
     components: {
-        //PageSidebar: './src/components/PageSidebar.astro',
+        //PageTitle: './src/components/PageTitle.astro',
         PageFrame: './src/components/PageFrame.astro',
         Sidebar: './src/components/Sidebar.astro',
         // Search: './src/components/Search.astro',
@@ -151,7 +154,7 @@ export default defineConfig({
     // 应用于 .md 和 .mdx 文件
     smartypants: false,
     remarkPlugins: [remarkMath],
-    rehypePlugins: [ rehypeMathjax],
+    rehypePlugins: [rehypeMathjax],
     remarkRehype: { footnoteLabel: '参考', footnoteBackLabel: '返回正文' },
   },
   output: 'server',

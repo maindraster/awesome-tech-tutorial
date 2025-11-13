@@ -19,8 +19,69 @@ const { hasSidebar } = Astro.locals.starlightRoute;
 			</nav>
 		)
 	}
-	<div class="main-frame"><slot /></div>
+	<div class="main-frame">
+		<!-- 展开按钮 -->
+		{hasSidebar && (
+			<button 
+				id="sidebar-expand-btn" 
+				class="sidebar-expand-btn"
+			>
+				<i class="iconfont icon-right"></i>
+			</button>
+		)}
+		<slot />
+	</div>
 </div>
+
+<script>
+  // 展开按钮逻辑
+  const STORAGE_KEY = 'starlight-sidebar-collapsed';
+  
+  function initExpandButton() {
+    const expandBtn = document.getElementById('sidebar-expand-btn');
+    const page = document.querySelector('.page');
+    if (!expandBtn || !page) return;
+
+    // 检查初始状态
+    const isCollapsed = localStorage.getItem(STORAGE_KEY) === 'true';
+    if (isCollapsed) {
+      expandBtn.classList.add('visible');
+      page.classList.add('sidebar-collapsed');
+    }
+
+    // 展开按钮点击
+    expandBtn.addEventListener('click', () => {
+      expandBtn.classList.remove('visible');
+      page.classList.remove('sidebar-collapsed');
+      // 触发展开事件
+      window.dispatchEvent(new Event('sidebar-expand'));
+    });
+  }
+
+  // 监听侧边栏状态变化
+  window.addEventListener('sidebar-state-changed', (e: any) => {
+    const expandBtn = document.getElementById('sidebar-expand-btn');
+    const page = document.querySelector('.page');
+    if (!expandBtn || !page) return;
+
+    if (e.detail.collapsed) {
+      expandBtn.classList.add('visible');
+      page.classList.add('sidebar-collapsed');
+    } else {
+      expandBtn.classList.remove('visible');
+      page.classList.remove('sidebar-collapsed');
+    }
+  });
+
+  // 页面加载时初始化
+  initExpandButton();
+  
+  // 处理页面导航
+  document.addEventListener('astro:page-load', () => {
+    initExpandButton();
+  });
+</script>
+
 <style>
 	@layer starlight.core {
 		.page {
@@ -36,8 +97,15 @@ const { hasSidebar } = Astro.locals.starlightRoute;
 			inset-inline-start: 0;
 			width: 100%;
 			background-color: var(--sl-color-black);
-			/* 关键修改：移除 overflow-y: auto; */
-			overflow: hidden; /* 改为 hidden，不让这层滚动 */
+			overflow: hidden;
+			transition: transform 0.3s ease, opacity 0.3s ease;
+		}
+
+		/* 折叠状态 */
+		.sidebar-pane.collapsed {
+			transform: translateX(-100%);
+			opacity: 0;
+			pointer-events: none;
 		}
 
 		:global([aria-expanded='true']) ~ .sidebar-pane {
@@ -60,7 +128,59 @@ const { hasSidebar } = Astro.locals.starlightRoute;
 		}
 
 		.main-frame {
-			padding-inline-start: var(--sl-content-inline-start);
+			padding-inline-start: 20rem;
+			position: relative;
+			transition: padding-inline-start 0.3s ease;
+		}
+		.page.sidebar-collapsed .main-frame {
+			padding-inline-start: 15rem;
+		}
+		/* 展开按钮样式 - 与折叠按钮大小一致 */
+		.sidebar-expand-btn {
+			position: fixed;
+			top: 1rem;
+			left: 1rem;
+			z-index: 50;
+			padding: 0.225rem;
+			width: 1.8rem;
+			height: 1.8rem;
+			background: var(--sl-color-bg-sidebar);
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.375rem;
+			cursor: pointer;
+			color: var(--sl-color-gray-2);
+			transition: all 0.2s ease;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+			opacity: 0;
+			pointer-events: none;
+			transform: translateX(-10px);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.sidebar-expand-btn .iconfont {
+			font-size: 0.75rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.sidebar-expand-btn.visible {
+			opacity: 1;
+			pointer-events: auto;
+			transform: translateX(0);
+		}
+
+		.sidebar-expand-btn:hover {
+			background: var(--sl-color-gray-6);
+			border-color: var(--sl-color-gray-4);
+			color: var(--sl-color-white);
+			transform: translateX(2px);
+		}
+
+		.sidebar-expand-btn:active {
+			transform: scale(0.95);
 		}
 
 		@media (min-width: 50rem) {
@@ -69,6 +189,30 @@ const { hasSidebar } = Astro.locals.starlightRoute;
 				width: var(--sl-sidebar-width);
 				background-color: var(--sl-color-bg-sidebar);
 				border-inline-end: 1px solid var(--sl-color-hairline-shade);
+			}
+
+			/* 桌面端折叠状态 */
+			.sidebar-pane.collapsed {
+				transform: translateX(calc(-1 * var(--sl-sidebar-width)));
+			}
+
+			/* 当侧边栏折叠时，增加内容区域的最大宽度 */
+			.page.sidebar-collapsed {
+				--sl-content-width: 60rem; /* 默认是 45rem，这里增加到 50rem，你可以根据需要调整 */
+			}
+		}
+
+		/* 移动端不应用折叠效果 */
+		@media (max-width: 49.99rem) {
+			.sidebar-pane.collapsed {
+				transform: none;
+				opacity: 1;
+				pointer-events: auto;
+			}
+
+			/* 移动端隐藏展开按钮 */
+			.sidebar-expand-btn {
+				display: none !important;
 			}
 		}
 	}
