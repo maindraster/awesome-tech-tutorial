@@ -22,11 +22,16 @@ const { hasSidebar } = Astro.locals.starlightRoute;
 	<div class="main-frame">
 		<!-- 展开按钮 -->
 		{hasSidebar && (
+			<div class="mobile-header">
+				<div class="title-wrapper">
+					<SiteTitle/>
+				</div>
+			</div>
 			<button 
 				id="sidebar-expand-btn" 
 				class="sidebar-expand-btn"
 			>
-				<i class="iconfont icon-right"></i>
+				<i class="iconfont icon-menu"></i>
 			</button>
 		)}
 		<slot />
@@ -120,90 +125,46 @@ const { hasSidebar } = Astro.locals.starlightRoute;
 			gap: 0.8rem;
 		}
 
-		@media (min-width: 50rem) {
-			.sidebar-content::after {
-				content: '';
-				padding-bottom: 1px;
-			}
+		/* 移动端 header - 默认隐藏 */
+		.mobile-header {
+			display: none;
 		}
 
-		.main-frame {
-			padding-inline-start: 20rem;
-			position: relative;
-			transition: padding-inline-start 0.3s ease;
-		}
-		.page.sidebar-collapsed .main-frame {
-			padding-inline-start: 15rem;
-		}
-		/* 展开按钮样式 - 与折叠按钮大小一致 */
-		.sidebar-expand-btn {
-			position: fixed;
-			top: 1rem;
-			left: 1rem;
-			z-index: 50;
-			padding: 0.225rem;
-			width: 1.8rem;
-			height: 1.8rem;
-			background: var(--sl-color-bg-sidebar);
-			border: 1px solid var(--sl-color-gray-5);
-			border-radius: 0.375rem;
-			cursor: pointer;
-			color: var(--sl-color-gray-2);
-			transition: all 0.2s ease;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-			opacity: 0;
-			pointer-events: none;
-			transform: translateX(-10px);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		.sidebar-expand-btn .iconfont {
-			font-size: 0.75rem;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		.sidebar-expand-btn.visible {
-			opacity: 1;
-			pointer-events: auto;
-			transform: translateX(0);
-		}
-
-		.sidebar-expand-btn:hover {
-			background: var(--sl-color-gray-6);
-			border-color: var(--sl-color-gray-4);
-			color: var(--sl-color-white);
-			transform: translateX(2px);
-		}
-
-		.sidebar-expand-btn:active {
-			transform: scale(0.95);
-		}
-
-		@media (min-width: 50rem) {
-			.sidebar-pane {
-				--sl-sidebar-visibility: visible;
-				width: var(--sl-sidebar-width);
-				background-color: var(--sl-color-bg-sidebar);
-				border-inline-end: 1px solid var(--sl-color-hairline-shade);
-			}
-
-			/* 桌面端折叠状态 */
-			.sidebar-pane.collapsed {
-				transform: translateX(calc(-1 * var(--sl-sidebar-width)));
-			}
-
-			/* 当侧边栏折叠时，增加内容区域的最大宽度 */
-			.page.sidebar-collapsed {
-				--sl-content-width: 60rem; /* 默认是 45rem，这里增加到 50rem，你可以根据需要调整 */
-			}
-		}
-
-		/* 移动端不应用折叠效果 */
+		/* 移动端显示 header */
 		@media (max-width: 49.99rem) {
+			.mobile-header {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				width: 100%;
+				height: var(--sl-nav-height);
+				padding: var(--sl-nav-pad-y) var(--sl-nav-pad-x);
+				background-color: var(--sl-color-bg);
+				border-bottom: 1px solid var(--sl-color-hairline-shade);
+				z-index: 2;
+			}
+			.title-wrapper {
+				flex: 1;
+				min-width: 0;
+				overflow: hidden;
+			}
+
+			/* 给 main-frame 添加 padding，避免内容被 header 遮住 */
+			.main-frame {
+				padding-top: var(--sl-nav-height);
+			}
+
+			/* 侧边栏从 header 下方开始 */
+			.sidebar-pane {
+				top: var(--sl-nav-height);
+				height: calc(100vh - var(--sl-nav-height));
+			}
+
+			/* 移动端不应用折叠效果 */
 			.sidebar-pane.collapsed {
 				transform: none;
 				opacity: 1;
@@ -213,6 +174,88 @@ const { hasSidebar } = Astro.locals.starlightRoute;
 			/* 移动端隐藏展开按钮 */
 			.sidebar-expand-btn {
 				display: none !important;
+			}
+		}
+
+		/* 中等宽度隐藏右侧栏 */
+		@media (min-width: 50rem) and (max-width: 71.99rem) {
+			:global(.right-sidebar-container) {
+				display: none !important;
+			}
+		}
+
+		@media (min-width: 50rem) {
+			.sidebar-content::after {
+				content: '';
+				padding-bottom: 1px;
+			}
+			.main-frame {
+				padding-inline-start: 20rem;
+				position: relative;
+				transition: padding-inline-start 0.3s ease;
+			}
+			.page.sidebar-collapsed .main-frame {
+				padding-inline-start: 15rem;
+			}
+			/* 展开按钮样式 */
+			.sidebar-expand-btn {
+				position: fixed;
+				top: 1rem;
+				left: 1rem;
+				z-index: 50;
+				padding: 0.225rem;
+				width: 1.8rem;
+				height: 1.8rem;
+				background: var(--sl-color-bg-sidebar);
+				border: 1px solid var(--sl-color-gray-5);
+				border-radius: 0.375rem;
+				cursor: pointer;
+				color: var(--sl-color-gray-2);
+				transition: all 0.2s ease;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+				opacity: 0;
+				pointer-events: none;
+				transform: translateX(-10px);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.sidebar-expand-btn .iconfont {
+				font-size: 0.75rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.sidebar-expand-btn.visible {
+				opacity: 1;
+				pointer-events: auto;
+				transform: translateX(0);
+			}
+
+			.sidebar-expand-btn:hover {
+				background: var(--sl-color-gray-6);
+				border-color: var(--sl-color-gray-4);
+				color: var(--sl-color-white);
+				transform: translateX(2px);
+			}
+			.sidebar-expand-btn:active {
+				transform: scale(0.95);
+			}
+			.sidebar-pane {
+				--sl-sidebar-visibility: visible;
+				width: var(--sl-sidebar-width);
+				background-color: var(--sl-color-bg-sidebar);
+				border-inline-end: 1px solid var(--sl-color-hairline-shade);
+			}
+			/* 桌面端折叠状态 */
+			.sidebar-pane.collapsed {
+				transform: translateX(calc(-1 * var(--sl-sidebar-width)));
+			}
+			/* 当侧边栏折叠时，增加内容区域的最大宽度 */
+			.page.sidebar-collapsed {
+				--sl-content-width: 60rem;
 			}
 		}
 	}

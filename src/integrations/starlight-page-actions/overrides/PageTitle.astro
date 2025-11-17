@@ -38,7 +38,6 @@ const options = [
     <span>Copy Markdown</span>
   </button>
 
-  <!-- 新增 PDF 导出按钮 -->
   <button class="action-button" id="export-pdf">
     <Icon name="document" size="1rem" />
     <span>Export PDF</span>
@@ -68,6 +67,93 @@ const options = [
     </div>
   </div>
 </div>
+
+<script>
+  function initButtons() {
+    // 复制 Markdown 按钮
+    const copyBtn = document.getElementById('copy-markdown') as HTMLButtonElement;
+    if (copyBtn && !copyBtn.dataset.initialized) {
+      copyBtn.dataset.initialized = 'true';
+      
+      copyBtn.addEventListener('click', async () => {
+        if (copyBtn.disabled) return;
+        
+        const path = copyBtn.dataset.path;
+        if (!path) return;
+        
+        try {
+          copyBtn.disabled = true;
+          const response = await fetch(path + '.md');
+          const markdown = await response.text();
+          await navigator.clipboard.writeText(markdown);
+          
+          copyBtn.classList.add('copied');
+          setTimeout(() => {
+            copyBtn.classList.remove('copied');
+          }, 3000);
+        } catch (err) {
+          console.error('Copy failed:', err);
+        } finally {
+          copyBtn.disabled = false;
+        }
+      });
+    }
+
+    // PDF 导出按钮
+    const pdfBtn = document.getElementById('export-pdf') as HTMLButtonElement;
+    if (pdfBtn && !pdfBtn.dataset.initialized) {
+      pdfBtn.dataset.initialized = 'true';
+      
+      pdfBtn.addEventListener('click', async () => {
+        const hasKatex = document.querySelector('.katex') !== null;
+        
+        if (hasKatex) {
+          console.log('检测到 KaTeX 公式，等待渲染完成...');
+          
+          if (document.readyState !== 'complete') {
+            await new Promise(resolve => {
+              window.addEventListener('load', () => resolve(null));
+            });
+          }
+          
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        
+        window.print();
+      });
+    }
+
+    // 下拉菜单
+    const toggle = document.getElementById('dropdown-toggle') as HTMLButtonElement;
+    const menu = document.getElementById('dropdown-menu') as HTMLDivElement;
+    
+    if (toggle && menu && !toggle.dataset.initialized) {
+      toggle.dataset.initialized = 'true';
+      
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('show');
+      });
+      
+      menu.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+      
+      if (!document.body.dataset.dropdownListenerAdded) {
+        document.body.dataset.dropdownListenerAdded = 'true';
+        document.addEventListener('click', () => {
+          const currentMenu = document.getElementById('dropdown-menu');
+          if (currentMenu) {
+            currentMenu.classList.remove('show');
+          }
+        });
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initButtons);
+  document.addEventListener('astro:page-load', initButtons);
+</script>
 
 <style>
   h1 {
@@ -173,7 +259,6 @@ const options = [
     margin-left: auto;
   }
 
-  /* PDF 打印样式 */
   @media print {
     .actions-container,
     nav,
@@ -187,4 +272,3 @@ const options = [
     }
   }
 </style>
-

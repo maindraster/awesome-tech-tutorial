@@ -50,95 +50,6 @@ const { sublist, nested = false } = Astro.props
       })
     })
 
-    // 🔥 初始化按钮功能
-    function initButtons() {
-      // 复制按钮
-      const copyBtn = document.getElementById('copy-markdown')
-      if (copyBtn && !copyBtn.dataset.initialized) {
-        copyBtn.dataset.initialized = 'true'
-        
-        copyBtn.addEventListener('click', async () => {
-          if (copyBtn.disabled) return
-          
-          const path = copyBtn.dataset.path
-          if (!path) return
-          
-          try {
-            copyBtn.disabled = true
-            const response = await fetch(path + '.md')
-            const markdown = await response.text()
-            await navigator.clipboard.writeText(markdown)
-            
-            copyBtn.classList.add('copied')
-            setTimeout(() => {
-              copyBtn.classList.remove('copied')
-            }, 3000)
-          } catch (err) {
-            console.error('Copy failed:', err)
-          } finally {
-            copyBtn.disabled = false
-          }
-        })
-      }
-
-      // 🔥 PDF 导出按钮
-      const pdfBtn = document.getElementById('export-pdf')
-      if (pdfBtn && !pdfBtn.dataset.initialized) {
-        pdfBtn.dataset.initialized = 'true'
-        
-        pdfBtn.addEventListener('click', async () => {
-          // 检查页面中是否有 KaTeX 公式
-          const hasKatex = document.querySelector('.katex') !== null
-          
-          if (hasKatex) {
-            console.log('检测到 KaTeX 公式，等待渲染完成...')
-            
-            // 等待所有资源加载完成
-            if (document.readyState !== 'complete') {
-              await new Promise(resolve => {
-                window.addEventListener('load', () => resolve(null))
-              })
-            }
-            
-            // 额外等待 500ms 确保 KaTeX 渲染完成
-            await new Promise(resolve => setTimeout(resolve, 500))
-          }
-          
-          // 触发打印
-          window.print()
-        })
-      }
-
-      // 下拉菜单
-      const toggle = document.getElementById('dropdown-toggle')
-      const menu = document.getElementById('dropdown-menu')
-      
-      if (toggle && menu && !toggle.dataset.initialized) {
-        toggle.dataset.initialized = 'true'
-        
-        toggle.addEventListener('click', (e) => {
-          e.stopPropagation()
-          menu.classList.toggle('show')
-        })
-        
-        // 点击菜单内部不关闭
-        menu.addEventListener('click', (e) => {
-          e.stopPropagation()
-        })
-        
-        // 点击外部关闭（只绑定一次）
-        if (!document.body.dataset.dropdownListenerAdded) {
-          document.body.dataset.dropdownListenerAdded = 'true'
-          document.addEventListener('click', () => {
-            const currentMenu = document.getElementById('dropdown-menu')
-            if (currentMenu) {
-              currentMenu.classList.remove('show')
-            }
-          })
-        }
-      }
-    }
-
     // 重新初始化 Starlight 的交互功能
     function reinitializeStarlight() {
       // 重新初始化目录高亮
@@ -176,10 +87,6 @@ const { sublist, nested = false } = Astro.props
           }
         })
       })
-
-      // 🔥 重新初始化按钮
-      initButtons()
-
       // 触发 Astro 的页面加载事件
       document.dispatchEvent(new Event('astro:page-load'))
     }
